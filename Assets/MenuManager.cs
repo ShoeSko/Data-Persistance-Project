@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
 
@@ -12,15 +11,13 @@ public class MenuManager : MonoBehaviour
 
     private void Start()
     {
-        string score = PlayerPrefs.GetInt("HighScore").ToString();
-        string bName = PlayerPrefs.GetString("BestPlayer");
-
-        highScoreDisplay.text = "High Score: " + bName + " " + score;
+        UpdateHighScore();
     }
 
     private void Update()
     {
         PlayerPrefs.SetString("CurrentPlayer", nameInput.text);
+        PlayerPrefs.Save();
     }
 
 
@@ -34,4 +31,21 @@ public class MenuManager : MonoBehaviour
     {
         Application.Quit();
     }
+
+    private void UpdateHighScore()
+    {
+        string score = PlayerPrefs.GetInt("HighestScore").ToString();
+        string bName = PlayerPrefs.GetString("BestPlayer");
+
+        highScoreDisplay.text = "High Score: " + bName + " " + score;
+    }
+
+    public void ResetScore()
+    {
+        PlayerPrefs.SetInt("HighestScore", 0);
+        PlayerPrefs.SetString("BestPlayer", "Ayame");
+
+        UpdateHighScore();
+    }
+    
 }
